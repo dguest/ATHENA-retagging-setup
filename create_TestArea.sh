@@ -1,13 +1,14 @@
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
 alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
 export ALRB_localConfigDir=$HOME/localConfig
+export AtlasSetup=/afs/cern.ch/atlas/software/dist/AtlasSetup
 alias asetup='source $AtlasSetup/scripts/asetup.sh'
 echo "Please enter the directory name (from current directory) in which you want to set up the test area: "
 read TestArea_name
 echo "The test area will be set up in the directory: $PWD/$TestArea_name"
 mkdir TestArea_name
 cd TestArea_name
-asetup 20.1.6.3,AtlasDerivation,gcc48,here
+asetup 20.1.6.3,AtlasDerivation,gcc48,here,64
 pkgco.py BTagging-00-07-43-branch
 pkgco.py JetTagTools-01-00-56-branch
 pkgco.py JetInterface-00-00-43
