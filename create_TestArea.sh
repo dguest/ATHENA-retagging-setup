@@ -8,7 +8,7 @@ mkdir TestArea_name
 cd TestArea_name
 asetup 20.1.6.3,AtlasDerivation,gcc48,here
 pkgco.py BTagging-00-07-43-branch
-pkgco.py JetTagTools-01-00-62-branch
+pkgco.py JetTagTools-01-00-56-branch
 pkgco.py JetInterface-00-00-43
 pkgco.py JetMomentTools-00-03-20
 pkgco.py PileupReweighting-00-03-06
@@ -17,5 +17,6 @@ setupWorkArea.py
 cd WorkArea/cmt
 cmt bro cmt config
 cmt bro cmt make
-
+cd ../../xAODAthena/run
+grep -rl "doRetag           =False" ./jobOptions_Tag.py | xargs sed -i 's/doRetag           =False/doRetag           =True/g'
 
