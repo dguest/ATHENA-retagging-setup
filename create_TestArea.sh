@@ -1,6 +1,7 @@
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
 alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
 export ALRB_localConfigDir=$HOME/localConfig
+alias asetup='source $AtlasSetup/scripts/asetup.sh'
 echo "Please enter the directory name (from current directory) in which you want to set up the test area: "
 read TestArea_name
 echo "The test area will be set up in the directory: $PWD/$TestArea_name"
