@@ -35,7 +35,7 @@ echo "The test area will be set up in the directory: $PWD/$TestArea_name"
 
 # build and go to the test area
 mkdir $TestArea_name
-pushd .													# come back to this directory later
+SRC_DIR=$(pwd)  # come back to this directory later
 cd $TestArea_name
 if _files_exist ; then
     echo "files exist in $TestArea_name, quitting..."
@@ -60,10 +60,14 @@ setupWorkArea.py
 
 # setup run area
 mkdir -p run
-local FILE
 for FILE in jobOptions_Tag.py RetagFragment.py ; do
-		cp $TestArea/xAODAthena/run/$FILE run/
+    cp $TestArea/xAODAthena/run/$FILE run/
 done
-patch -p0 < ../jo_update.patch
-popd														# leave test area
+# patch the job options file
+patch -p0 < $SRC_DIR/jo_update.patch
 
+# go back to the directory we started in
+cd $SRC_DIR
+
+# cleanup
+unset SRC_DIR FILE
