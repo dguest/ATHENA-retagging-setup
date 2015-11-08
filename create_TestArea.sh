@@ -32,15 +32,17 @@ else
     TestArea_name=$1
 fi
 echo "The test area will be set up in the directory: $PWD/$TestArea_name"
-mkdir $TestArea_name
 
-pushd .
+# build and go to the test area
+mkdir $TestArea_name
+pushd .													# come back to this directory later
 cd $TestArea_name
 if _files_exist ; then
     echo "files exist in $TestArea_name, quitting..."
     return 1
 fi
 
+# checkout packages
 asetup 20.1.6.3,AtlasDerivation,gcc48,here,64
 pkgco.py BTagging-00-07-43-branch
 pkgco.py JetTagTools-01-00-56-branch
@@ -55,10 +57,13 @@ setupWorkArea.py
     cmt bro cmt config
     cmt bro cmt make
 )
+
+# setup run area
 mkdir -p run
-(
-    cd run
-    grep -rl "doRetag           =False" ./jobOptions_Tag.py | xargs sed -i 's/doRetag           =False/doRetag           =True/g'
-)
-popd
+local FILE
+for FILE in jobOptions_Tag.py RetagFragment.py ; do
+		cp $TestArea/xAODAthena/run/$FILE run/
+done
+patch -p0 < ../jo_update.patch
+popd														# leave test area
 
