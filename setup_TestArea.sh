@@ -4,5 +4,5 @@ export ALRB_localConfigDir=$HOME/localConfig
 echo "Please enter the name of the test area you want to use: "
 read TestArea_name
 echo "Athena will be set up in the directory: $PWD/$TestArea_name"
-cd TestArea_20.1.6.3/
-asetup 20.1.6.3,AtlasDerivation,gcc48,here
+cd $PWD/$TestArea_name
+asetup 20.1.6.3,AtlasDerivation,gcc48,here,64
