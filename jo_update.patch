@@ -11,7 +11,8 @@
    ##"AntiKt10LCTopoJets"
 @@ -23,8 +23,9 @@
  from AthenaCommon.AthenaCommonFlags import jobproperties as jp
- jp.AthenaCommonFlags.EvtMax.set_Value_and_Lock(-1)
+- jp.AthenaCommonFlags.EvtMax.set_Value_and_Lock(-1)
++ jp.AthenaCommonFlags.EvtMax.set_Value_and_Lock(10) # only run over 10 events
  
 -jp.AthenaCommonFlags.FilesInput = [ 
 -  "/afs/cern.ch/user/g/ggonella/ggonella/public/ForValerio/mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.merge.AOD.e3698_s2608_s2183_r6630_r6264_tid05419191_00/AOD.05419191._000184.pool.root.1"
