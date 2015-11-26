@@ -63,6 +63,8 @@ mkdir -p run
 for FILE in jobOptions_Tag.py RetagFragment.py ; do
     cp $TestArea/xAODAthena/run/$FILE run/
 done
+# get default NN configuration file
+cp /afs/cern.ch/user/m/malanfer/public/training_files/AGILEPack_b-tagging.weights.json $TestArea/run/.
 # patch the job options file
 patch -p0 < $SRC_DIR/jo_update.patch
 
