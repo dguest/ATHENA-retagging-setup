@@ -112,7 +112,7 @@ BTaggingFlags.CalibrationTag = 'BTagCalibRUN2-test'
 #BTaggingFlags.CalibrationTag = 'Run2DC14' ## '0801C' ##'k0002'
 
 BTaggingFlags.DL1 = True
-# BTaggingFlags.DL1LocalNNconfig = "AGILEPack_b-tagging.weights.json"
+# BTaggingFlags.DL1LocalNNConfig = "AGILEPack_b-tagging.weights.json"
 
 include("RetagFragment.py")
 
