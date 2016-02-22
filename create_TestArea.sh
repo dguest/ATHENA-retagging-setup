@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-set -eu
 # ________________________________________________________________________
 function _usage() {
-    echo "usage $0 $1 <branch or trunk>"
+    echo "usage $0 $1 <branch or trunk> [<testarea directory>]"
 }
 
 function _help() {
@@ -17,7 +16,7 @@ To use it you'll need:
 
 This script will:
  - Set up the required environment variables.
- - Set up Athena
+ - Set up Athena in the (to be) specified directory.
 EOF
 }
 
@@ -38,22 +37,21 @@ if [ "$1" != "branch" -a "$1" != "trunk" ]; then
     exit 1
 fi
 
-# setup atlas stuff
-# export AtlasSetup=/afs/cern.ch/atlas/software/dist/AtlasSetup
-
+shopt -s expand_aliases
+# set up ATLAS stuff
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
 alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
 
 if [[ ! $ATLAS_LOCAL_ASETUP_VERSION ]] ; then
     echo -n "setting up local ATLAS environment..."
     setupATLAS -q
+    lsetup asetup
     echo "done"
 else
     echo "ATLAS environment is already setup, not setting up again"
 fi
-
 # setup directory
-if (( $# < 1 )) ; then
+if (( $# < 2 )) ; then
    echo "Please enter the directory name (from current directory) in which you want to set up the test area: "
    read TestArea_name
 else
@@ -62,7 +60,7 @@ fi
 echo "The test area will be set up in the directory: $PWD/$TestArea_name"
 
 # build and go to the test area
-mkdir $TestArea_name
+mkdir -p $TestArea_name
 SRC_DIR=$(pwd)  # come back to this directory later
 cd $TestArea_name
 if _files_exist ; then
