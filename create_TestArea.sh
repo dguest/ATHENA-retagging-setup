@@ -1,8 +1,7 @@
-#!/usr/bin/env bash
 
 # ________________________________________________________________________
 function _usage() {
-    echo "usage $0 $1 <branch or trunk> [<testarea directory>]"
+    echo "usage $0 [<testarea directory>]"
 }
 
 function _help() {
@@ -20,24 +19,24 @@ This script will:
 EOF
 }
 
+if (( $# < 1 )) ; then
+    _usage
+    _help
+    return 1
+fi
+TestArea_name=$1
+
 # ________________________________________________________________________
 # random functions
 _files_exist () {
     files=$(shopt -s nullglob dotglob; echo *)
     if (( ${#files} )) ; then
-       return 0
+        return 0
     else
-  return 1
+        return 1
     fi
 }
-if [ "$1" != "branch" -a "$1" != "trunk" ]; then
-    echo "ERROR: You did not decide on using either the branch or the trunk in your setup.\n"
-    _usage
-    _help
-    exit 1
-fi
 
-shopt -s expand_aliases
 # set up ATLAS stuff
 export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
 alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
@@ -50,14 +49,6 @@ if [[ ! $ATLAS_LOCAL_ASETUP_VERSION ]] ; then
 else
     echo "ATLAS environment is already setup, not setting up again"
 fi
-# setup directory
-if (( $# < 2 )) ; then
-   echo "Please enter the directory name (from current directory) in which you want to set up the test area: "
-   read TestArea_name
-else
-    TestArea_name=$2
-fi
-echo "The test area will be set up in the directory: $PWD/$TestArea_name"
 
 # build and go to the test area
 mkdir -p $TestArea_name
@@ -69,24 +60,16 @@ if _files_exist ; then
 fi
 
 # checkout packages
-if [[ "$1" == "branch" ]]; then
-    asetup 20.1.6.3,AtlasDerivation,gcc48,here,64
-    pkgco.py BTagging-00-07-43-branch
-    pkgco.py JetTagTools-01-00-56-branch
-    pkgco.py JetInterface-00-00-43
-    pkgco.py JetMomentTools-00-03-20
-    pkgco.py PileupReweighting-00-03-06
-elif [[ "$1" == "trunk" ]]; then
-    asetup 20.7.3.3,AtlasDerivation,gcc48,here,64
-    pkgco.py -A BTagging
-    pkgco.py -A JetTagTools
-    pkgco.py TrkVKalVrtFitter-00-07-08
-    pkgco.py InDetVKalVxInJetTool-00-06-07
-    pkgco.py VxSecVertex-00-04-07
-    pkgco.py JetInterface-00-00-43
-    pkgco.py JetMomentTools-00-03-20
-    pkgco.py PileupReweighting-00-03-06
-fi
+asetup 20.7.3.3,AtlasDerivation,gcc48,here,64
+pkgco.py -A BTagging
+pkgco.py -A JetTagTools
+# pkgco.py TrkVKalVrtFitter-00-07-08
+# pkgco.py InDetVKalVxInJetTool-00-06-07
+# pkgco.py VxSecVertex-00-04-07
+# pkgco.py JetInterface-00-00-43
+# pkgco.py JetMomentTools-00-03-20
+# pkgco.py PileupReweighting-00-03-06
+
 svn co svn+ssh://svn.cern.ch/reps/atlasperf/CombPerf/FlavorTag/FlavourTagPerformanceFramework/trunk/xAODAthena xAODAthena
 setupWorkArea.py
 # build all the things
@@ -105,7 +88,7 @@ done
 cp /afs/cern.ch/user/m/malanfer/public/training_files/AGILEPack_b-tagging.weights.json $TestArea/run/.
 # move the job options file
 cd run/
-ln -s $SRC_DIR/jobOptions_Tag.py
+ln -sf $SRC_DIR/jobOptions_Tag.py
 
 # go back to the directory we started in
 cd $SRC_DIR

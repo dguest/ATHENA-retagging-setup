@@ -106,14 +106,14 @@ from BTagging.BTaggingFlags import BTaggingFlags
 #BTaggingFlags.CalibrationTag = 'BTagCalibRUN12-08-07'
 
 #### if you want to use your own calibration file use this part below
-BTaggingFlags.CalibrationFromLocalReplica = True
-BTaggingFlags.CalibrationFolderRoot = '/GLOBAL/BTagCalib/'
-BTaggingFlags.CalibrationTag = 'BTagCalibRUN2-test'
+# BTaggingFlags.CalibrationFromLocalReplica = True
+# BTaggingFlags.CalibrationFolderRoot = '/GLOBAL/BTagCalib/'
+# BTaggingFlags.CalibrationTag = 'BTagCalibRUN2-test'
 #BTaggingFlags.CalibrationTag = 'Run2DC14' ## '0801C' ##'k0002'
 
 BTaggingFlags.DL1 = True
 # BTaggingFlags.DL1LocalNNConfig = "AGILEPack_b-tagging.weights.json"
-
+BTaggingFlags.DL1LocalNNConfig = 'agilepack_december_1d_btagging.json'
 include("RetagFragment.py")
 
 
